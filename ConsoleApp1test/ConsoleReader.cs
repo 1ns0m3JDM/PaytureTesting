@@ -12,21 +12,21 @@ namespace PaytureTest
     public class ConsoleReader
     {
         Validator validator = new Validator();
-        public string ReadString(string _name)      
+        public string ReadString(string name)      
         {
-            Console.WriteLine($"Enter {_name}:");
+            Console.WriteLine($"Enter {name}:");
 
-            var _pattern = validator.ValidRegReturn(_name);
+            var pattern = Validator.ValidRegReturn(name);
             
-            var _string = Console.ReadLine();
-           
-            while (_string == null  || _string.Equals(string.Empty) || !Regex.IsMatch(_string, _pattern))
+            var rl = Console.ReadLine();
+
+            while (String.IsNullOrEmpty(rl) || !Regex.IsMatch(rl, pattern))
             {
-                Console.WriteLine($"Enter {_name} correctly: ") ;
-                _string = Console.ReadLine(); 
+                Console.WriteLine($"Enter {name} correctly: ") ;
+                rl = Console.ReadLine(); 
             }
 
-            return _string;
+            return rl;
         }
     } 
 }

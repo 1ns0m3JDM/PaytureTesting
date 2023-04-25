@@ -9,37 +9,37 @@ namespace PaytureTest
 {
     public class Validator
     {
-        public string ValidRegReturn(string _string)
+        public static string ValidRegReturn(string name)
         {
-            string _regex = "";
+           string regex = String.Empty;
 
-            switch (_string)
+            switch (name)
             {
                 case "Amount":
-                    _regex = @"^([1-9]\d*)$";
+                    regex = @"^([1-9]\d*)$";
                     break;
 
                 case "PAN":
-                    _regex = @"^[2-5]\d{3}\d{4}\d{4}\d{4}$";
+                    regex = @"^[2-5]\d{3}\d{4}\d{4}\d{4}$";
                     break;
 
                 case "EMonth":
-                    _regex = @"^(0?[1-9]|1[0-2])$";
+                    regex = @"^(0?[1-9]|1[0-2])$";
                     break;
 
                 case "EYear":
-                    _regex = @"^\d{2}$";
+                    regex = @"^\d{2}$";
                     break;
 
                 case "CardHolder":
-                    _regex = @"^[A-Za-z]+ [A-Za-z]+$";
+                    regex = @"^[A-Za-z]+ [A-Za-z]+$";
                     break;
 
                 case "SecureCode":
-                    _regex = @"^\d{3,4}$";
+                    regex = @"^\d{3,4}$";
                     break;
             }
-            return _regex;
+            return regex;
         }
     }
 }
