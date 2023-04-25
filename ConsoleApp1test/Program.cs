@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using NLog;
+using Serilog;
+using Serilog.Sinks.File;
 
 namespace PaytureTest
 {
@@ -9,7 +10,9 @@ namespace PaytureTest
     {
         public static async Task Main()
         {
-            Logger logger = LogManager.GetCurrentClassLogger();
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.File("log.txt")
+                .CreateLogger();
 
             var url = "https://sandbox3.payture.com/api/Pay";
             var reader = new ConsoleReader();
@@ -37,24 +40,24 @@ namespace PaytureTest
                                         Product=Ticket"}
                 })
             };
-            logger.Info($"Adding payment: Key = Merchant, Amount = {_amount}, orderId = {guid}");
+            Log.Information($"Adding payment: Key = Merchant, Amount = {_amount}, orderId = {guid}");
 
 
             try
                {
                  var Message = $"Sending request : OrderId = {guid}/Amount = {_amount} on URL: {url}";
-                 logger.Trace(Message);
+                 Log.Information(Message);
                  Console.WriteLine(Message);
                  
                  var response = await client.SendAsync(request);
                  Message = "Request Succeed";
-                 logger.Trace(Message);
+                 Log.Information(Message);
                  Console.WriteLine(Message);
 
 
                  Message = "Getting Response";
-                 
-                 logger.Trace(Message);
+
+                 Log.Information(Message);
                  Console.WriteLine(Message);
 
                  
@@ -62,14 +65,16 @@ namespace PaytureTest
 
                  Message = $"Get Server response succeed: {responseContent}";
 
-                 logger.Trace(Message);
+                 Log.Information(Message);
                  Console.WriteLine(Message);
                 }
             catch (Exception ex)
                 {
-                 logger.Fatal($"Exception : {ex.Message}");
+                 Log.Error($"Exception : {ex.Message}");
                  Console.WriteLine($"Exception : {ex.Message}");
                 }
+
+            Log.CloseAndFlush();
         }
     }
 }
