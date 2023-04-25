@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using NLog;
 
 namespace PaytureTest
 {
@@ -8,6 +9,8 @@ namespace PaytureTest
     {
         public static async Task Main()
         {
+            Logger logger = LogManager.GetCurrentClassLogger();
+
             var url = "https://sandbox3.payture.com/api/Pay";
             var reader = new ConsoleReader();
             Console.WriteLine("Enter the payment details");
@@ -34,19 +37,36 @@ namespace PaytureTest
                                         Product=Ticket"}
                 })
             };
+            logger.Info($"Adding payment: Key = Merchant, Amount = {_amount}, orderId = {guid}");
 
             try
                {
-                 Console.WriteLine($"Sending request : OrderId = {guid}/Amount = {_amount} on URL: {url}");
+                 var Message = $"Sending request : OrderId = {guid}/Amount = {_amount} on URL: {url}";
+                 logger.Trace(Message);
+                 Console.WriteLine(Message);
+                 
                  var response = await client.SendAsync(request);
-                 Console.WriteLine("Request Succeed");
+                 Message = "Request Succeed";
+                 logger.Trace(Message);
+                 Console.WriteLine(Message);
 
-                 Console.WriteLine($"Getting Response");
+
+                 Message = "Getting Response";
+                 
+                 logger.Trace(Message);
+                 Console.WriteLine(Message);
+
+                 
                  var responseContent = await response.Content.ReadAsStringAsync();
-                 Console.WriteLine($"Get Server response succeed: {responseContent}");
+
+                 Message = $"Get Server response succeed: {responseContent}";
+
+                 logger.Trace(Message);
+                 Console.WriteLine(Message);
                 }
             catch (Exception ex)
                 {
+                 logger.Fatal($"Exception : {ex.Message}");
                  Console.WriteLine($"Exception : {ex.Message}");
                 }
         }
