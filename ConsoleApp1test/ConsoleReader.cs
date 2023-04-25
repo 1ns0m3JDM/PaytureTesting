@@ -17,7 +17,7 @@ namespace PaytureTest
             Console.WriteLine($"Enter {_name}:");
 
             var _pattern = validator.ValidRegReturn(_name);
-
+            
             var _string = Console.ReadLine();
            
             while (_string == null  || _string.Equals(string.Empty) || !Regex.IsMatch(_string, _pattern))
