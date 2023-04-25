@@ -28,5 +28,5 @@ namespace PaytureTest
 
             return _string;
         }
-    }  
+    } 
 }
