@@ -11,7 +11,6 @@ namespace PaytureTest
 {
     public class ConsoleReader
     {
-        Validator validator = new Validator();
         public string ReadString(string name)      
         {
             Console.WriteLine($"Enter {name}:");
