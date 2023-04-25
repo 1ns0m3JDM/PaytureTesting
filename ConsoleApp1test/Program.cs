@@ -16,10 +16,16 @@ namespace PaytureTest
 
             var url = "https://sandbox3.payture.com/api/Pay";
             var reader = new ConsoleReader();
+
             Console.WriteLine("Enter the payment details");
-            
-            var _amount = reader.ReadString("Amount");
             var guid = Guid.NewGuid();
+            var amount = reader.ReadString("Amount");
+            var pan = reader.ReadString("PAN");
+            var eMonth = reader.ReadString("EMonth");
+            var eYear = reader.ReadString("EYear");
+            var cardHolder = reader.ReadString("CardHolder");
+            var secureCode = reader.ReadString("SecureCode");
+
             var client = new HttpClient();
             var request = new HttpRequestMessage(HttpMethod.Post, url)
 
@@ -27,53 +33,52 @@ namespace PaytureTest
                 Content = new FormUrlEncodedContent(new Dictionary<string, string>
                 {
                     { "Key", "Merchant" },
-                    { "Amount", $"{_amount}"},
+                    { "Amount", $"{amount}"},
                     { "OrderId", $"{guid}"},
-                    { "PayInfo", $@"PAN={reader.ReadString("PAN")};
-                                   EMonth={reader.ReadString("EMonth")};
-                                   EYear={reader.ReadString("EYear")};
-                                   CardHolder={reader.ReadString("CardHolder")};
-                                   SecureCode={reader.ReadString("SecureCode")};
+                    { "PayInfo", $@"PAN={pan};
+                                   EMonth={eMonth};
+                                   EYear={eYear};
+                                   CardHolder={cardHolder};
+                                   SecureCode={secureCode};
                                    OrderId={guid};
-                                   Amount={_amount}"},
+                                   Amount={amount}"},
                     { "CustomFields", @"IP=230.137.123.5;
                                         Product=Ticket"}
                 })
             };
-            Log.Information($"Adding payment: Key = Merchant, Amount = {_amount}, orderId = {guid}");
+            Log.Information($"Adding payment: Key = Merchant, Amount = {amount}, orderId = {guid}");
 
 
             try
-               {
-                 var Message = $"Sending request : OrderId = {guid}/Amount = {_amount} on URL: {url}";
-                 Log.Information(Message);
-                 Console.WriteLine(Message);
-                 
-                 var response = await client.SendAsync(request);
-                 Message = "Request Succeed";
-                 Log.Information(Message);
-                 Console.WriteLine(Message);
+            {
+                var message = $"Sending request : OrderId = {guid}/Amount = {amount} on URL: {url}";
+                Log.Information(message);
+                Console.WriteLine(message);
+
+                var response = await client.SendAsync(request);
+                message = "Request Succeed";
+                Log.Information(message);
+                Console.WriteLine(message);
 
 
-                 Message = "Getting Response";
+                message = "Getting Response";
 
-                 Log.Information(Message);
-                 Console.WriteLine(Message);
+                Log.Information(message);
+                Console.WriteLine(message);
 
-                 
-                 var responseContent = await response.Content.ReadAsStringAsync();
 
-                 Message = $"Get Server response succeed: {responseContent}";
+                var responseContent = await response.Content.ReadAsStringAsync();
 
-                 Log.Information(Message);
-                 Console.WriteLine(Message);
-                }
+                message = $"Get Server response succeed: {responseContent}";
+
+                Log.Information(message);
+                Console.WriteLine(message);
+            }
             catch (Exception ex)
-                {
-                 Log.Error($"Exception : {ex.Message}");
-                 Console.WriteLine($"Exception : {ex.Message}");
-                }
-
+            {
+                Log.Error($"Exception : {ex.Message}");
+                Console.WriteLine($"Exception : {ex.Message}");
+            }
             Log.CloseAndFlush();
         }
     }
