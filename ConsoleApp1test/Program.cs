@@ -39,6 +39,7 @@ namespace PaytureTest
             };
             logger.Info($"Adding payment: Key = Merchant, Amount = {_amount}, orderId = {guid}");
 
+
             try
                {
                  var Message = $"Sending request : OrderId = {guid}/Amount = {_amount} on URL: {url}";
