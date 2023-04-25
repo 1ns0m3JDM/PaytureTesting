@@ -4,16 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using NLog;
+using Serilog;
+using Serilog.Sinks.File;
 
 namespace PaytureTest
 {
     public class ConsoleReader
     {
-        Logger logger = LogManager.GetCurrentClassLogger();
-
         Validator validator = new Validator();
-
         public string ReadString(string _name)      
         {
             Console.WriteLine($"Enter {_name}:");
@@ -24,7 +22,6 @@ namespace PaytureTest
            
             while (_string == null  || _string.Equals(string.Empty) || !Regex.IsMatch(_string, _pattern))
             {
-                logger.Error($"incorrectly entered {_name} ");
                 Console.WriteLine($"Enter {_name} correctly: ") ;
                 _string = Console.ReadLine(); 
             }

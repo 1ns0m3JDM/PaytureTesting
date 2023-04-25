@@ -8,7 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="C:\Users\Kukharskiy.IP\.nuget\packages\nlog.config\4.5.3\contentFiles\any\any\NLog.config" />
     <None Remove="C:\Users\Kukharskiy.IP\.nuget\packages\nlog.config\4.7.15\contentFiles\any\any\NLog.config" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Serilog" Version="2.12.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
   </ItemGroup>
 
 </Project>
